@@ -2,7 +2,7 @@
 
 "Player/0":
 {
-	"frame": {"x":4,"y":70,"w":16,"h":16},
+	"frame": {"x":20,"y":38,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -10,7 +10,7 @@
 },
 "Player/1":
 {
-	"frame": {"x":4,"y":92,"w":10,"h":16},
+	"frame": {"x":50,"y":38,"w":10,"h":16},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":4,"y":0,"w":10,"h":16},
@@ -18,7 +18,7 @@
 },
 "Player/2":
 {
-	"frame": {"x":26,"y":48,"w":16,"h":16},
+	"frame": {"x":20,"y":20,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -26,7 +26,7 @@
 },
 "Player/3":
 {
-	"frame": {"x":48,"y":48,"w":10,"h":16},
+	"frame": {"x":38,"y":38,"w":10,"h":16},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":0,"w":10,"h":16},
@@ -34,7 +34,7 @@
 },
 "Scientist/0":
 {
-	"frame": {"x":4,"y":48,"w":16,"h":16},
+	"frame": {"x":38,"y":2,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -42,7 +42,7 @@
 },
 "Scientist/1":
 {
-	"frame": {"x":48,"y":26,"w":10,"h":16},
+	"frame": {"x":50,"y":20,"w":10,"h":16},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":3,"y":0,"w":10,"h":16},
@@ -50,7 +50,7 @@
 },
 "Scientist/2":
 {
-	"frame": {"x":26,"y":26,"w":16,"h":16},
+	"frame": {"x":20,"y":2,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -58,7 +58,7 @@
 },
 "Scientist/3":
 {
-	"frame": {"x":48,"y":4,"w":10,"h":16},
+	"frame": {"x":38,"y":20,"w":10,"h":16},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":3,"y":0,"w":10,"h":16},
@@ -66,7 +66,7 @@
 },
 "TilesetOne/0":
 {
-	"frame": {"x":4,"y":26,"w":16,"h":16},
+	"frame": {"x":2,"y":38,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -74,7 +74,7 @@
 },
 "TilesetOne/1":
 {
-	"frame": {"x":26,"y":4,"w":16,"h":16},
+	"frame": {"x":2,"y":20,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -82,7 +82,7 @@
 },
 "TilesetOne/2":
 {
-	"frame": {"x":4,"y":4,"w":16,"h":16},
+	"frame": {"x":2,"y":2,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -90,7 +90,7 @@
 },
 "TilesetOne/3":
 {
-	"frame": {"x":4,"y":26,"w":16,"h":16},
+	"frame": {"x":2,"y":38,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -101,8 +101,8 @@
 	"version": "1.0",
 	"image": "atlasOne.png",
 	"format": "RGBA8888",
-	"size": {"w":64,"h":128},
+	"size": {"w":64,"h":64},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b2841ee6e40262b60b02e03baca789af:1/1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c486546d688f20a8637e01dee0ebc8ad:1/1$"
 }
 }

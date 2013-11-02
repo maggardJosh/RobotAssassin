@@ -25,7 +25,7 @@ public class Main : MonoBehaviour {
         camera = new FCamObject();
 
         player = new Player();
-
+        player.SetPosition(100, -100);
         Futile.stage.AddChild(player);
 
         camera.follow(player);
@@ -34,7 +34,7 @@ public class Main : MonoBehaviour {
 
         for (int x = 0; x < 10; x++)
         {
-            Scientist s = new Scientist(RXRandom.Float() * 100, -RXRandom.Float() * 100);
+            Scientist s = new Scientist(RXRandom.Float() * 200, -RXRandom.Float() * 200);
             Futile.stage.AddChild(s);
         }
 

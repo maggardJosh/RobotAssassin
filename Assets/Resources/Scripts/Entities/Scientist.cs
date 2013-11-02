@@ -12,6 +12,8 @@ public class Scientist : BaseWalkingAnimSprite
     Dir currentDirection = Dir.DOWN;
     float lastDecision = 0;
     float MIN_DECISION = 1;
+    float MAX_DECISION = 2;
+    float nextDecision = 1;
     bool moving;
     public Scientist(float startX, float startY)
         : base("Scientist")
@@ -47,6 +49,7 @@ public class Scientist : BaseWalkingAnimSprite
                     }
             }
             lastDecision = 0;
+            nextDecision = MIN_DECISION + (MAX_DECISION - MIN_DECISION) * RXRandom.Float();
         }
 
         if (moving)
