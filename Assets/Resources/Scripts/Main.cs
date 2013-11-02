@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Main : MonoBehaviour {
     FCamObject camera;
+    Player player;
 	// Use this for initialization
 	void Start () {
         FutileParams futileParams = new FutileParams(true, false, false, false);
@@ -15,27 +16,35 @@ public class Main : MonoBehaviour {
         Futile.atlasManager.LoadAtlas("Atlases/atlasOne");
         FTmxMap tilemap = new FTmxMap();
 
+
         tilemap.LoadTMX("Maps/testMap");
+        FTilemap tilemapTiles = (FTilemap)(tilemap.getLayerNamed("Tilemap"));
 
         Futile.stage.AddChild(tilemap);
 
         camera = new FCamObject();
 
-        Futile.stage.AddChild(camera);
+        player = new Player();
 
+        Futile.stage.AddChild(player);
+
+        camera.follow(player);
+        camera.setWorldBounds(new Rect(0, -200, 200, 200));
+        tilemapTiles.clipNode = camera;
+
+        for (int x = 0; x < 10; x++)
+        {
+            Scientist s = new Scientist(RXRandom.Float() * 100, -RXRandom.Float() * 100);
+            Futile.stage.AddChild(s);
+        }
+
+        Futile.stage.AddChild(camera);
 	}
 	
 	// Update is called once per frame
     void Update()
     {
 
-        if (UnityEngine.Input.GetKey(KeyCode.W))
-            camera.y += 1;
-        if (UnityEngine.Input.GetKey(KeyCode.S))
-            camera.y -= 1;
-        if (UnityEngine.Input.GetKey(KeyCode.D))
-            camera.x += 1;
-        if (UnityEngine.Input.GetKey(KeyCode.A))
-            camera.x -= 1;
+        
 	}
 }

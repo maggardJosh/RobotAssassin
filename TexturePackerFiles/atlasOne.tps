@@ -138,7 +138,7 @@
             <key>innerPadding</key>
             <uint>0</uint>
             <key>extrude</key>
-            <uint>1</uint>
+            <uint>2</uint>
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMode</key>
@@ -149,6 +149,7 @@
         <key>fileList</key>
         <array>
             <filename>Tilesets</filename>
+            <filename>AnimatedSprites</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -10,6 +10,8 @@ public class FAnimatedSprite : FSprite {
 	
 	protected string _baseName;
 	protected string _baseExtension;
+
+    public bool _stopped = false;
 	
 	protected List<FAnimation> _animations;
 	
@@ -22,7 +24,7 @@ public class FAnimatedSprite : FSprite {
 		_baseName = elementBase;
 		
 		// default to first frame, no animation
-		Init(FFacetType.Quad, Futile.atlasManager.GetElementWithName(_baseName+"_1"),1); // expects individual frames, in convention of NAME_#.EXT
+		Init(FFacetType.Quad, Futile.atlasManager.GetElementWithName(_baseName+"/1"),1); // expects individual frames, in convention of NAME_#.EXT
 		_isAlphaDirty = true;
 		UpdateLocalVertices();
 		
@@ -36,7 +38,7 @@ public class FAnimatedSprite : FSprite {
 		_baseName = elementBase;
 		
 		// default to first frame, no animation
-		Init(FFacetType.Quad, Futile.atlasManager.GetElementWithName(_baseName+"_1"),1); // expects individual frames, in convention of NAME_#.EXT
+		Init(FFacetType.Quad, Futile.atlasManager.GetElementWithName(_baseName+"/1"),1); // expects individual frames, in convention of NAME_#.EXT
 		_isAlphaDirty = true;
 		UpdateLocalVertices();
 		
@@ -54,6 +56,7 @@ public class FAnimatedSprite : FSprite {
 					if (_currentAnim.looping) {
 						_currentFrame = 0;
 					} else {
+                        _stopped = true;
 						_currentFrame = _currentAnim.totalFrames - 1;
 					}
 					
@@ -61,7 +64,7 @@ public class FAnimatedSprite : FSprite {
 					//_currentAnim.checkFinished();
 				}
 				
-				element = Futile.atlasManager.GetElementWithName(_baseName+"_"+_currentAnim.frames[_currentFrame]);
+				element = Futile.atlasManager.GetElementWithName(_baseName+"/"+_currentAnim.frames[_currentFrame]);
 				
 				_time -= (float)_currentAnim.delay / 1000.0f;
 			}
@@ -79,6 +82,7 @@ public class FAnimatedSprite : FSprite {
 	}
 	
 	public void play(string animName, bool forced=false) {
+        _stopped = true;
 		// check if we are given the same animation that is currently playing
 		if (_currentAnim.name == animName) {
 			if (forced) {
@@ -87,7 +91,7 @@ public class FAnimatedSprite : FSprite {
 				_time = 0;
 				
 				// redraw
-				element = Futile.atlasManager.GetElementWithName(_baseName+"_"+_currentAnim.frames[0]);
+				element = Futile.atlasManager.GetElementWithName(_baseName+"/"+_currentAnim.frames[0]);
 			}
 			
 			return;
@@ -101,7 +105,7 @@ public class FAnimatedSprite : FSprite {
 				_time = 0;
 				
 				// force redraw to first frame
-				element = Futile.atlasManager.GetElementWithName(_baseName+"_"+anim.frames[0]);
+				element = Futile.atlasManager.GetElementWithName(_baseName+"/"+anim.frames[0]);
 				
 				break;
 			}
