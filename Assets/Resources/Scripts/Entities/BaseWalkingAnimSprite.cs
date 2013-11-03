@@ -5,7 +5,7 @@ using System.Text;
 
 	public abstract class BaseWalkingAnimSprite : FAnimatedSprite
 	{
-        protected float walkSpeed = 30.0f;
+        protected float walkSpeed = 50.0f;
         public BaseWalkingAnimSprite(string baseElement) : base(baseElement)
         {
             addAnimation(new FAnimation("walk_down", new int[]{0}, 100, true));

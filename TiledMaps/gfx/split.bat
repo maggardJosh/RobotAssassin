@@ -36,5 +36,6 @@ for /L %%Y in (0,1,%loopTilesHigh%) DO (
 )
 
 :END
-set /p id=Press Enter to exit
+echo Done!
+pause
 

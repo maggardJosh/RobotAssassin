@@ -5,8 +5,13 @@ GOTO finish
 
 :setFilename
 SET filename=%1 
+for %%x in (%filename:\= %) do (set actualFilename=%%x)
+set actualFilename = %actualFilename:~0,-4%.txt
+echo 
+echo %actualFilename%
+
 
 :finish
-copy .\%filename%.tmx ..\Assets\Resources\Maps\%filename%.txt && echo "Copied %filename%.tmx to ..\Assets\Resources\Maps\%filename%.txt" || echo "Nothing copied"
+copy %1 ..\Assets\Resources\Maps\%actualFilename:~0,-4%.txt && echo "Copied %actualFilename:~0,-4%.tmx to ..\Assets\Resources\Maps\%actualFilename:~0,-4%.txt" || echo "Nothing copied"
 
 pause
