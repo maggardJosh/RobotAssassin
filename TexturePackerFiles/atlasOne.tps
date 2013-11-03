@@ -136,7 +136,7 @@
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
             <key>innerPadding</key>
-            <uint>1</uint>
+            <uint>0</uint>
             <key>extrude</key>
             <uint>0</uint>
             <key>trimThreshold</key>
