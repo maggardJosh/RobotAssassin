@@ -1,5 +1,29 @@
 {"frames": {
 
+"MetaTileset/0":
+{
+	"frame": {"x":48,"y":92,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+"MetaTileset/1":
+{
+	"frame": {"x":48,"y":92,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+"MetaTileset/2":
+{
+	"frame": {"x":48,"y":70,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
 "Player/0":
 {
 	"frame": {"x":48,"y":48,"w":16,"h":16},
@@ -10,7 +34,7 @@
 },
 "Player/1":
 {
-	"frame": {"x":48,"y":92,"w":10,"h":16},
+	"frame": {"x":86,"y":48,"w":10,"h":16},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":4,"y":0,"w":10,"h":16},
@@ -26,7 +50,7 @@
 },
 "Player/3":
 {
-	"frame": {"x":48,"y":70,"w":10,"h":16},
+	"frame": {"x":70,"y":48,"w":10,"h":16},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":0,"w":10,"h":16},
@@ -62,6 +86,14 @@
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":3,"y":0,"w":10,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+"TilesetOne/0":
+{
+	"frame": {"x":26,"y":92,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
 	"sourceSize": {"w":16,"h":16}
 },
 "TilesetOne/1":
@@ -791,6 +823,6 @@
 	"format": "RGBA8888",
 	"size": {"w":128,"h":128},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8b29dd2f08b7ad53f5415fa9ee71403f:1/1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:7c7e4b6c2602a04ad0967aaac490d307:1/1$"
 }
 }

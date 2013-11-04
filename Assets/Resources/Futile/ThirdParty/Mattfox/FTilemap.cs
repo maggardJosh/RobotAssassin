@@ -32,6 +32,8 @@ public class FTilemap : FContainer {
 	
 	protected bool _clipToScreen = false;
 	protected Vector2 _clipPos;
+
+    protected int firstGID = 0;
 	
 	[Obsolete("use FTilemap(string elementBase) instead")]
 	public FTilemap (string elementBase, string elementExtension) : base()
@@ -44,6 +46,11 @@ public class FTilemap : FContainer {
 		
 		this.ListenForUpdate(Update);
 	}
+
+    public FTilemap (string elementBase, int firstGID) : this(elementBase)
+    {
+        this.firstGID = firstGID;
+    }
 	
 	public FTilemap (string elementBase) : base() 
 	{
@@ -172,7 +179,7 @@ public class FTilemap : FContainer {
 				foreach (string frame in frames) {
 					if (frame != "") {
 						// keep track of all frames
-						int frameNum = int.Parse(frame);
+						int frameNum = int.Parse(frame) - firstGID + 1;
 						_tileArray[i+(j*_tilesWide)] = frameNum;
 						
 						if (frameNum == 0) {

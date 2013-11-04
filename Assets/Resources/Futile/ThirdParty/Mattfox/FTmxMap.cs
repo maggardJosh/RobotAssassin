@@ -81,6 +81,28 @@ public class FTmxMap : FContainer {
 		
 		return returnValue;
 	}
+    protected int getFirstGidForID(int num)
+    {
+        if (_tilesets.Count < 1)
+        {
+            Debug.Log("FTiledScene: No Tilesets found.");
+            return 0;
+        }
+
+        XMLNode wantedNode = _tilesets[0];
+
+        // loop through tilesets
+        foreach (XMLNode node in _tilesets)
+        {
+            // check if node attribute firstgid >= num
+            int firstID = int.Parse(node.attributes["firstgid"]);
+            if (firstID <= num)
+            {
+                wantedNode = node;
+            }
+        }
+        return int.Parse(wantedNode.attributes["firstgid"]);
+    }
 	
 	protected string getTilesetExtensionForID(int num) 
 	{
@@ -198,9 +220,10 @@ public class FTmxMap : FContainer {
 		
 		// find name of tileset being used, assumes all tiles are from the same tileset
 		string baseName = this.getTilesetNameForID(firstID);
+        int firstGID = this.getTilesetFirstIDForID(firstID);
 		
 		// create tilemap
-		FTilemap tilemap = new FTilemap(baseName);
+		FTilemap tilemap = new FTilemap(baseName, firstGID);
 		if (!skipZero) {
 			tilemap.clipToScreen = true;
 			tilemap.clipNode = _clipNode;
