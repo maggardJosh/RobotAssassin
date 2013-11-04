@@ -57,16 +57,16 @@ public class Scientist : BaseWalkingAnimSprite
             switch(currentDirection)
             {
                 case Dir.UP:
-                    moveUp();
+                    walkUp();
                     break;
                 case Dir.LEFT:
-                    moveLeft();
+                    walkLeft();
                     break;
                 case Dir.DOWN:
-                    moveDown();
+                    walkDown();
                     break;
                 case Dir.RIGHT:
-                    moveRight();
+                    walkRight();
                     break;
             }
         }

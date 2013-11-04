@@ -1,9 +1,17 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using System.Collections.Generic;
 
 public class Main : MonoBehaviour {
+
     FCamObject camera;
     Player player;
+    List<BaseGameObject> gameObjects = new List<BaseGameObject>();
+
+    FContainer backgroundLayer;
+    FContainer playerLayer;
+    FContainer foregroundLayer;
+
 	// Use this for initialization
 	void Start () {
         FutileParams futileParams = new FutileParams(true, false, false, false);
@@ -15,21 +23,28 @@ public class Main : MonoBehaviour {
 
         Futile.atlasManager.LoadAtlas("Atlases/atlasOne");
         Futile.atlasManager.LoadFont("gameFont", "fontOne_0", "Atlases/fontOne", 0, 0);
+
+        backgroundLayer = new FContainer();
+        playerLayer = new FContainer();
+        foregroundLayer = new FContainer();
+        
+        
         FTmxMap tmxMap = new FTmxMap();
 
 
         tmxMap.LoadTMX("Maps/testMap");
         FTilemap tilemap = (FTilemap)(tmxMap.getLayerNamed("Tilemap"));
         FTilemap tilemapCollision = (FTilemap)(tmxMap.getLayerNamed("Meta"));
-
-        Futile.stage.AddChild(tmxMap);
+        backgroundLayer = new FContainer();
+        backgroundLayer.AddChild(tilemap);
+        backgroundLayer.AddChild(tilemapCollision);
 
         camera = new FCamObject();
 
         player = new Player();
         player.setTilemap(tilemapCollision);
         player.SetPosition(100, -100);
-        Futile.stage.AddChild(player);
+        playerLayer.AddChild(player);
 
         camera.follow(player);
         camera.setWorldBounds(new Rect(0, -tilemap.height, tilemap.width, tilemap.height));
@@ -45,16 +60,18 @@ public class Main : MonoBehaviour {
             s.setTilemap(tilemapCollision);
             while (!BaseWalkingAnimSprite.isWalkable(tilemapCollision, s.x, s.y))
                 s.SetPosition(RXRandom.Float() * tilemap.width, -RXRandom.Float() * tilemap.height);
-            Futile.stage.AddChild(s);
+            playerLayer.AddChild(s);
         }
-
+        playerLayer.shouldSortByZ = true;
+        Futile.stage.AddChild(backgroundLayer);
+        Futile.stage.AddChild(playerLayer);
+        Futile.stage.AddChild(foregroundLayer);
         Futile.stage.AddChild(camera);
 	}
 	
 	// Update is called once per frame
     void Update()
     {
-
         
 	}
 }

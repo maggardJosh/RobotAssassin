@@ -21,12 +21,12 @@ public class Player : BaseWalkingAnimSprite
     private void HandleControls()
     {
         if (UnityEngine.Input.GetKey(KeyCode.W))
-            moveUp();
+            walkUp();
         if (UnityEngine.Input.GetKey(KeyCode.S))
-            moveDown();
+            walkDown();
         if (UnityEngine.Input.GetKey(KeyCode.D))
-            moveRight();
+            walkRight();
         if (UnityEngine.Input.GetKey(KeyCode.A))
-            moveLeft();
+            walkLeft();
     }
 }
