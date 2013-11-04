@@ -14,6 +14,7 @@ public class Main : MonoBehaviour {
         Futile.instance.Init(futileParams);
 
         Futile.atlasManager.LoadAtlas("Atlases/atlasOne");
+        Futile.atlasManager.LoadFont("gameFont", "fontOne_0", "Atlases/fontOne", 0, 0);
         FTmxMap tmxMap = new FTmxMap();
 
 
@@ -33,6 +34,10 @@ public class Main : MonoBehaviour {
         camera.follow(player);
         camera.setWorldBounds(new Rect(0, -tilemap.height, tilemap.width, tilemap.height));
         tmxMap.setClipNode(camera);
+
+        FConvoLabel labelOne = new FConvoLabel("gameFont", "Hello! Making games is fun...\nAlso it took me way too\nlong to get this font to work\n           - Jif");
+        labelOne.SetPosition(0, -50);
+        camera.AddChild(labelOne);
 
         for (int x = 0; x < 10; x++)
         {
