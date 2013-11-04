@@ -30,7 +30,7 @@ public class Main : MonoBehaviour {
 
         camera.follow(player);
         camera.setWorldBounds(new Rect(0, -tilemapTiles.height, tilemapTiles.width, tilemapTiles.height));
-        tilemapTiles.clipNode = camera;
+        tilemap.setClipNode(camera);
 
         for (int x = 0; x < 10; x++)
         {

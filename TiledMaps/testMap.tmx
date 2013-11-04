@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="TilesetOne" tilewidth="16" tileheight="16">
   <image source="gfx/TilesetOne.png" width="160" height="144"/>
  </tileset>
- <tileset firstgid="91" name="metaTileset" tilewidth="16" tileheight="16">
+ <tileset firstgid="91" name="MetaTileset" tilewidth="16" tileheight="16">
   <image source="gfx/MetaTileset.png" width="32" height="16"/>
  </tileset>
  <layer name="Tilemap" width="30" height="30">
