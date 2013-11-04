@@ -334,9 +334,18 @@ public class FTilemap : FContainer {
 		
 		return returnX;
 	}
-	
+
+    public int getFrameNumAt(float xPos, float yPos)
+    {
+        return getFrameNum(Mathf.FloorToInt(xPos / tileWidth), Mathf.FloorToInt(-(yPos / tileHeight)));
+    }
+
 	public int getFrameNum(int givenX, int givenY) {
-		return _tileArray[(givenX % _tilesWide) + (givenY * _tilesWide)];
+        if (givenX >= 0 && givenX < _tilesWide &&
+            givenY >= 0 && givenY < _tilesHigh)
+            return _tileArray[(givenX % _tilesWide) + (givenY * _tilesWide)];
+        else
+            return -1;
 	}
 	
 	// returns FSprite at 
@@ -400,6 +409,15 @@ public class FTilemap : FContainer {
 	{
 		get { return _skipZero; }
 	}
+
+    virtual public float tileWidth
+    {
+        get { return _tileWidth; }
+    }
+    virtual public float tileHeight
+    {
+        get { return _tileHeight; }
+    }
 	
 	virtual public float width
 	{

@@ -14,27 +14,32 @@ public class Main : MonoBehaviour {
         Futile.instance.Init(futileParams);
 
         Futile.atlasManager.LoadAtlas("Atlases/atlasOne");
-        FTmxMap tilemap = new FTmxMap();
+        FTmxMap tmxMap = new FTmxMap();
 
 
-        tilemap.LoadTMX("Maps/testMap");
-        FTilemap tilemapTiles = (FTilemap)(tilemap.getLayerNamed("Tilemap"));
+        tmxMap.LoadTMX("Maps/testMap");
+        FTilemap tilemap = (FTilemap)(tmxMap.getLayerNamed("Tilemap"));
+        FTilemap tilemapCollision = (FTilemap)(tmxMap.getLayerNamed("Meta"));
 
-        Futile.stage.AddChild(tilemap);
+        Futile.stage.AddChild(tmxMap);
 
         camera = new FCamObject();
 
         player = new Player();
+        player.setTilemap(tilemapCollision);
         player.SetPosition(100, -100);
         Futile.stage.AddChild(player);
 
         camera.follow(player);
-        camera.setWorldBounds(new Rect(0, -tilemapTiles.height, tilemapTiles.width, tilemapTiles.height));
-        tilemap.setClipNode(camera);
+        camera.setWorldBounds(new Rect(0, -tilemap.height, tilemap.width, tilemap.height));
+        tmxMap.setClipNode(camera);
 
         for (int x = 0; x < 10; x++)
         {
-            Scientist s = new Scientist(RXRandom.Float() * 200, -RXRandom.Float() * 200);
+            Scientist s = new Scientist(RXRandom.Float() * tilemap.width, -RXRandom.Float() * tilemap.height);
+            s.setTilemap(tilemapCollision);
+            while (!BaseWalkingAnimSprite.isWalkable(tilemapCollision, s.x, s.y))
+                s.SetPosition(RXRandom.Float() * tilemap.width, -RXRandom.Float() * tilemap.height);
             Futile.stage.AddChild(s);
         }
 
