@@ -5,41 +5,66 @@ using System.Text;
 
 public abstract class BaseWalkingAnimSprite : BaseGameObject
 {
-
+    protected int animSpeed = 300;
     protected float walkSpeed = 50.0f;
-    public BaseWalkingAnimSprite(string baseElement)
-        : base(baseElement)
+    public enum State
     {
-        addAnimation(new FAnimation("walk_down", new int[] { 0 }, 100, true));
-        addAnimation(new FAnimation("walk_left", new int[] { 1 }, 100, true));
-        addAnimation(new FAnimation("walk_up", new int[] { 2 }, 100, true));
-        addAnimation(new FAnimation("walk_right", new int[] { 3 }, 100, true));
+        IDLE,
+        WALKING
+    }
+    public enum Direction
+    {
+        UP, DOWN, LEFT, RIGHT
+    }
+    protected Direction currentDirection = Direction.DOWN;
+    protected State currentState = State.IDLE;
+    public BaseWalkingAnimSprite(string baseElement)
+        : base(baseElement+"_1")
+    {
+        addAnimation(new FAnimation(State.IDLE+ "_" + Direction.DOWN, new int[] { 1 }, animSpeed, true));
+        addAnimation(new FAnimation(State.IDLE+ "_" + Direction.LEFT, new int[] { 5 }, animSpeed, true));
+        addAnimation(new FAnimation(State.IDLE+ "_" + Direction.UP, new int[] { 9 }, animSpeed, true));
+        addAnimation(new FAnimation(State.IDLE+ "_" + Direction.RIGHT, new int[] { 13 }, animSpeed, true));
+        addAnimation(new FAnimation(State.WALKING+"_" + Direction.DOWN, new int[] { 1,2,3,4 }, animSpeed, true));
+        addAnimation(new FAnimation(State.WALKING+"_" + Direction.LEFT, new int[] { 5,6,7,8 }, animSpeed, true));
+        addAnimation(new FAnimation(State.WALKING+"_" + Direction.UP, new int[] { 9,10,11,12 },animSpeed, true));
+        addAnimation(new FAnimation(State.WALKING+"_" + Direction.RIGHT, new int[] { 13,14,15,16 }, animSpeed, true));
     }
 
+    protected override  void Update()
+    {
+        play(currentState + "_" + currentDirection);
+        currentState = State.IDLE;
+
+    }
 
     protected void walkUp()
     {
+        currentState = State.WALKING;
+        currentDirection = Direction.UP;
         moveUp(walkSpeed);
-        play("walk_up");
-       
     }
 
     protected void walkDown()
     {
+        currentState = State.WALKING;
+        currentDirection = Direction.DOWN;
         moveDown(walkSpeed);
-        play("walk_down");
     }
 
     protected void walkLeft()
     {
+
+        currentState = State.WALKING;
+        currentDirection = Direction.LEFT;
         moveLeft(walkSpeed);
-        play("walk_left");
     }
 
     protected void walkRight()
     {
+        currentState = State.WALKING;
+        currentDirection = Direction.RIGHT;
         moveRight(walkSpeed);
-        play("walk_right");
     }
 
 

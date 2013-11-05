@@ -16,7 +16,7 @@ public class Scientist : BaseWalkingAnimSprite
     float nextDecision = 1;
     bool moving;
     public Scientist(float startX, float startY)
-        : base("Scientist")
+        : base("scientist")
     {
         startPos = new Vector2(startX, startY);
         SetPosition(startPos);
@@ -50,6 +50,7 @@ public class Scientist : BaseWalkingAnimSprite
             }
             lastDecision = 0;
             nextDecision = MIN_DECISION + (MAX_DECISION - MIN_DECISION) * RXRandom.Float();
+            base.Update();
         }
 
         if (moving)
@@ -70,6 +71,7 @@ public class Scientist : BaseWalkingAnimSprite
                     break;
             }
         }
+        base.Update();
     }
 
     
