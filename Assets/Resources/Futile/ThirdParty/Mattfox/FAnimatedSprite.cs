@@ -16,6 +16,7 @@ public class FAnimatedSprite : FSprite {
 	protected List<FAnimation> _animations;
 	
 	protected FAnimation _currentAnim;
+
 	
 	[Obsolete("use FAnimatedSprite(string elementBase) instead")]
 	public FAnimatedSprite  (string elementBase, string elementExtension) {
@@ -111,6 +112,21 @@ public class FAnimatedSprite : FSprite {
 			}
 		}
 	}
+
+    public void setFAnim(FAnimation anim)
+    {
+        _stopped = true;
+        if (_currentAnim == anim)
+        {
+            return;
+        }
+        _currentAnim = anim;
+        _currentFrame = 0;
+        _time = 0;
+
+        // force redraw to first frame
+        element = Futile.atlasManager.GetElementWithName(_baseName + "/" + anim.frames[0]);
+    }
 	
 	public void pause(bool forced=false) {
 		if (forced) {
