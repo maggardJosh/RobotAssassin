@@ -2,20 +2,23 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Main : MonoBehaviour {
+
+public class Main : MonoBehaviour
+{
 
     FCamObject camera;
     Player player;
     List<BaseGameObject> gameObjects = new List<BaseGameObject>();
-
     FContainer backgroundLayer;
     FContainer playerLayer;
     FContainer foregroundLayer;
 
+    List<FNode> spawnPoints = new List<FNode>();
+    List<WarpPoint> warpPoints = new List<WarpPoint>();
 
-
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         FutileParams futileParams = new FutileParams(true, false, false, false);
 
         futileParams.AddResolutionLevel(160, 1.0f, 1.0f, "");
@@ -30,51 +33,105 @@ public class Main : MonoBehaviour {
         playerLayer = new FContainer();
         foregroundLayer = new FContainer();
 
-        GlitchManager.getInstance();
-        
-        FTmxMap tmxMap = new FTmxMap();
-
-
-        tmxMap.LoadTMX("Maps/testMap");
-        FTilemap tilemap = (FTilemap)(tmxMap.getLayerNamed("Tilemap"));
-        FTilemap tilemapCollision = (FTilemap)(tmxMap.getLayerNamed("Meta"));
-        backgroundLayer = new FContainer();
-        backgroundLayer.AddChild(tilemap);
-        backgroundLayer.AddChild(tilemapCollision);
+        GlitchManager.getInstance();       
 
         camera = new FCamObject();
-
         player = new Player();
-        player.setTilemap(tilemapCollision);
-        player.SetPosition(100, -100);
-        playerLayer.AddChild(player);
 
+        loadMap("testMap");
+
+        playerLayer.AddChild(player);
         camera.follow(player);
-        camera.setWorldBounds(new Rect(0, -tilemap.height, tilemap.width, tilemap.height));
-        tmxMap.setClipNode(camera);
 
         FConvoLabel labelOne = new FConvoLabel("gameFont", "I will destroy everyone with\nmy floating sword of DOOOM!\n          - Jif");
         labelOne.SetPosition(0, -50);
         camera.AddChild(labelOne);
-
-        for (int x = 0; x < 10; x++)
-        {
-            Scientist s = new Scientist(RXRandom.Float() * tilemap.width, -RXRandom.Float() * tilemap.height);
-            s.setTilemap(tilemapCollision);
-            while (!BaseWalkingAnimSprite.isWalkable(tilemapCollision, s.x, s.y))
-                s.SetPosition(RXRandom.Float() * tilemap.width, -RXRandom.Float() * tilemap.height);
-            playerLayer.AddChild(s);
-        }
+        
         playerLayer.shouldSortByZ = true;
+
         Futile.stage.AddChild(backgroundLayer);
         Futile.stage.AddChild(playerLayer);
         Futile.stage.AddChild(foregroundLayer);
         Futile.stage.AddChild(camera);
-	}
-	
-	// Update is called once per frame
+    }
+
+    private void loadMap(string mapName)
+    {
+        warpPoints.Clear();
+        spawnPoints.Clear();
+
+        backgroundLayer.RemoveAllChildren();
+
+        FTmxMap tmxMap = new FTmxMap();
+        tmxMap.LoadTMX("Maps/"+mapName);
+        
+        FTilemap tilemap = (FTilemap)(tmxMap.getLayerNamed("Tilemap"));
+        FTilemap tilemapCollision = (FTilemap)(tmxMap.getLayerNamed("Meta"));
+        FContainer objectGroup = (FContainer)(tmxMap.getLayerNamed("Objects"));
+        
+        backgroundLayer.AddChild(tilemap);
+        backgroundLayer.AddChild(tilemapCollision);
+        backgroundLayer.AddChild(objectGroup);
+
+        foreach (XMLNode xml in tmxMap.objects)
+        {
+            switch (xml.attributes["type"])
+            {
+                case "Spawn":
+                    FNode spawnPoint = new FNode();
+                    spawnPoint.SetPosition(int.Parse(xml.attributes["x"]), int.Parse(xml.attributes["y"]));
+                    spawnPoints.Add(spawnPoint);
+                    break;
+                case "Warp":
+                    int warpX = 0;
+                    int warpY = 0;
+                    XMLNode propertiesNode = (XMLNode)xml.children[0];
+                    foreach (XMLNode property in propertiesNode.children)
+                    {
+                        switch (property.attributes["name"])
+                        {
+                            case "warpTileX":
+                                warpX = int.Parse(property.attributes["value"]);
+                                break;
+                            case "warpTileY":
+                                warpY = int.Parse(property.attributes["value"]);
+                                break;
+                        }
+                    }
+                    WarpPoint warpPoint = new WarpPoint(warpX, warpY, xml.attributes["name"], int.Parse(xml.attributes["x"]) + 8, -int.Parse(xml.attributes["y"]) + 8);
+                    warpPoints.Add(warpPoint);
+                    break;
+            }
+        }
+
+        player.setTilemap(tilemapCollision);
+        player.SetPosition(100, -100);
+        
+        camera.setWorldBounds(new Rect(0, -tilemap.height, tilemap.width, tilemap.height));
+        tmxMap.setClipNode(camera);
+
+
+    }
+
+    // Update is called once per frame
     void Update()
     {
-        
-	}
+        WarpPoint destWarpPoint = null;
+        foreach (WarpPoint wp in warpPoints)
+        {
+            float distSquared = (player.GetPosition() - wp.GetPosition()).sqrMagnitude;
+            
+            if (distSquared <= 100)
+            {
+                destWarpPoint = wp;
+                break;
+                
+            }
+        }
+        if (destWarpPoint != null)
+        {
+            loadMap(destWarpPoint.mapName);
+            player.SetPosition(destWarpPoint.warpTileX * 16 + 8, destWarpPoint.warpTileY * -16 + 8);
+        }
+    }
 }

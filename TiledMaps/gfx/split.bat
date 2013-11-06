@@ -13,8 +13,7 @@ if not exist "Output" mkdir Output
 
 SET filename=%1 
 for %%x in (%filename:\= %) do (set folderName=%%x)
-
-rmdir /s /q Output\%folderName:~0,-4%
+if exist "Output\%folderName:~0,-4%" rmdir /s /q Output\%folderName:~0,-4%
 mkdir Output\%folderName:~0,-4%
 
 rem ----------------------
