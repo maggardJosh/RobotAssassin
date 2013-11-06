@@ -45,7 +45,7 @@ public abstract class BaseGameObject : FAnimatedSprite
             FAnimatedSprite sprite = otherAnims[x];
             sprite.SetPosition(this.GetPosition());
             sprite.sortZ = this.sortZ;
-            sprite.SetElementByName(this.elementBase + "_" + (x + 1) + "/"+this.currentFrame);
+            sprite.SetElementByName(this.elementBase + "_" + (x + 2) + "/"+this.currentFrame);
             sprite.alpha = this.alpha;
             sprite.rotation = this.rotation;
 

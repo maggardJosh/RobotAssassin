@@ -36,12 +36,17 @@ public class Map : FTmxMap
     {
         spawnPoints.Clear();
         warpPoints.Clear();
-        if(tilemap!=null)
-        tilemap.RemoveFromContainer();
-        if(tilemapCollision!=null)
-        tilemapCollision.RemoveFromContainer();
-        if(objectGroup!=null)
-        objectGroup.RemoveFromContainer();
+        if (tilemap != null)
+            tilemap.RemoveFromContainer();
+        if (tilemapCollision != null)
+            tilemapCollision.RemoveFromContainer();
+        if (objectGroup != null)
+            objectGroup.RemoveFromContainer();
+        for (int x = 0; x < playerLayer.GetChildCount(); x++)
+        {
+            playerLayer.RemoveChild(playerLayer.GetChildAt(x));
+            x--;
+        }
     }
 
     internal void loadMap(string mapName)
@@ -59,7 +64,7 @@ public class Map : FTmxMap
             {
                 case "Spawn":
                     FNode spawnPoint = new FNode();
-                    spawnPoint.SetPosition(int.Parse(xml.attributes["x"]) +8, -int.Parse(xml.attributes["y"]) + 8);
+                    spawnPoint.SetPosition(int.Parse(xml.attributes["x"]) + 8, -int.Parse(xml.attributes["y"]) + 8);
                     spawnPoints.Add(spawnPoint);
                     player.SetPosition(spawnPoint.GetPosition());
                     break;
@@ -85,12 +90,16 @@ public class Map : FTmxMap
             }
         }
 
+        Scientist s = new Scientist(100, -100);
+        playerLayer.AddChild(s);
+        s.setTilemap(tilemapCollision);
 
         backgroundLayer.AddChild(tilemap);
         backgroundLayer.AddChild(tilemapCollision);
         backgroundLayer.AddChild(objectGroup);
 
         player.setTilemap(tilemapCollision);
+        playerLayer.AddChild(player);
     }
 
     internal void Update()
