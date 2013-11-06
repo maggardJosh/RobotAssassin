@@ -83,7 +83,7 @@ public class FAnimatedSprite : FSprite {
 	}
 	
 	public void play(string animName, bool forced=false) {
-        _stopped = true;
+        _stopped = false;
 		// check if we are given the same animation that is currently playing
 		if (_currentAnim.name == animName) {
 			if (forced) {
@@ -115,7 +115,7 @@ public class FAnimatedSprite : FSprite {
 
     public void setFAnim(FAnimation anim)
     {
-        _stopped = true;
+        _stopped = false;
         if (_currentAnim == anim)
         {
             return;

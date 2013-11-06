@@ -12,6 +12,8 @@ public class Main : MonoBehaviour {
     FContainer playerLayer;
     FContainer foregroundLayer;
 
+
+
 	// Use this for initialization
 	void Start () {
         FutileParams futileParams = new FutileParams(true, false, false, false);
@@ -27,7 +29,8 @@ public class Main : MonoBehaviour {
         backgroundLayer = new FContainer();
         playerLayer = new FContainer();
         foregroundLayer = new FContainer();
-        
+
+        GlitchManager.getInstance();
         
         FTmxMap tmxMap = new FTmxMap();
 
@@ -50,7 +53,7 @@ public class Main : MonoBehaviour {
         camera.setWorldBounds(new Rect(0, -tilemap.height, tilemap.width, tilemap.height));
         tmxMap.setClipNode(camera);
 
-        FConvoLabel labelOne = new FConvoLabel("gameFont", "Hello! Making games is fun...\nAlso it took me way too\nlong to get this font to work\n           - Jif");
+        FConvoLabel labelOne = new FConvoLabel("gameFont", "I will destroy everyone with\nmy floating sword of DOOOM!\n          - Jif");
         labelOne.SetPosition(0, -50);
         camera.AddChild(labelOne);
 

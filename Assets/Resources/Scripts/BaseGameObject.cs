@@ -2,22 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 public abstract class BaseGameObject : FAnimatedSprite
 {
     private FTilemap collisionTilemap;
 
     private FAnimatedSprite[] otherAnims = new FAnimatedSprite[3];
-    protected int currentLevel = 0;
+    private string elementBase = "";
 
     public BaseGameObject(string elementBase)
         : base(elementBase+"_1")
     {
-        
+        this.elementBase = elementBase;
         for (int x = 0; x < 3; x++)
         {
             otherAnims[x] = new FAnimatedSprite(elementBase + "_" + (x + 1));
         }
+    }
+
+    public void SetPosition(Vector2 newPosition)
+    {
+        base.SetPosition(newPosition);
+        foreach (FAnimatedSprite s in otherAnims)
+            s.SetPosition(newPosition);
     }
 
     public static bool isWalkable(FTilemap map, float xPos, float yPos)
@@ -26,30 +34,29 @@ public abstract class BaseGameObject : FAnimatedSprite
         int[] wallFrames = new int[] { 1, -1 };
         return !wallFrames.Contains(tileFrame);
     }
-    private float count = 0;
-    private float nextCount = .5f;
-    private float maxCount = 1.5f;
+   
     protected virtual void Update()
     {
 
-        count += UnityEngine.Time.deltaTime;
-        if (count > .05f)
+       
+        this.sortZ = -y;
+        for(int x=0; x<3; x++)
         {
-            currentLevel = RXRandom.Int(4);
-            count = 0;
-        }
-        
-        foreach (FAnimatedSprite sprite in otherAnims)
-        {
+            FAnimatedSprite sprite = otherAnims[x];
             sprite.SetPosition(this.GetPosition());
             sprite.sortZ = this.sortZ;
-            sprite.setFAnim(this.currentAnim);
+            sprite.SetElementByName(this.elementBase + "_" + (x + 1) + "/"+this.currentFrame);
+            sprite.alpha = this.alpha;
+            sprite.rotation = this.rotation;
+
         }
+      
         showCurrentLevel();
     }
 
     private void showCurrentLevel()
     {
+        int currentLevel = GlitchManager.getInstance().CurrentLevel;
         this.isVisible = false;
         foreach (FAnimatedSprite sprite in otherAnims)
             sprite.isVisible = false;
