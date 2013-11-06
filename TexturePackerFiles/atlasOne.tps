@@ -151,6 +151,8 @@
             <filename>Tilesets</filename>
             <filename>AnimatedSprites</filename>
             <filename>Fonts</filename>
+            <filename>Dialog Assets</filename>
+            <filename>Status Bar</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

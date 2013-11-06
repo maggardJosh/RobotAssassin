@@ -35,12 +35,11 @@ public class Main : MonoBehaviour
 
         GlitchManager.getInstance();       
 
-        camera = new FCamObject();
+        camera = new Ym90_GUI();
         player = new Player();
 
         loadMap("testMap");
 
-        playerLayer.AddChild(player);
         camera.follow(player);
 
         FConvoLabel labelOne = new FConvoLabel("gameFont", "I will destroy everyone with\nmy floating sword of DOOOM!\n          - Jif");
@@ -109,6 +108,17 @@ public class Main : MonoBehaviour
         
         camera.setWorldBounds(new Rect(0, -tilemap.height, tilemap.width, tilemap.height));
         tmxMap.setClipNode(camera);
+
+        playerLayer.AddChild(player);
+
+        for (int x = 0; x < 10; x++)
+        {
+            Scientist s = new Scientist(RXRandom.Float() * tilemap.width, -RXRandom.Float() * tilemap.height);
+            s.setTilemap(tilemapCollision);
+            while (!BaseWalkingAnimSprite.isWalkable(tilemapCollision, s.x, s.y))
+                s.SetPosition(RXRandom.Float() * tilemap.width, -RXRandom.Float() * tilemap.height);
+            playerLayer.AddChild(s);
+        }
 
 
     }
