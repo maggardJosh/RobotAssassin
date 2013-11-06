@@ -53,7 +53,7 @@ public abstract class BaseGameObject : FAnimatedSprite
       
         showCurrentLevel();
     }
-    private float pushFromWallsSpeed = 15;
+    private float pushFromWallsSpeed = 25;
     private void pushAwayFromWalls()
     {
         if (collisionTilemap == null)

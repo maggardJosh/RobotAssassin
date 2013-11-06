@@ -8,6 +8,8 @@ public class Main : MonoBehaviour
     Ym90_GUI camera;
     Player player;
     Map currentMap = new Map();
+    LoadingScreen loadingScreen;
+    public static bool controlsLocked = false;
 
     // Use this for initialization
     void Start()
@@ -22,6 +24,7 @@ public class Main : MonoBehaviour
         Futile.atlasManager.LoadAtlas("Atlases/atlasOne");
         Futile.atlasManager.LoadFont("gameFont", "fontOne_0", "Atlases/fontOne", 0, 0);
 
+
         GlitchManager.getInstance();       
 
         camera = new Ym90_GUI();
@@ -31,6 +34,8 @@ public class Main : MonoBehaviour
         currentMap.setPlayer(player);
         loadMap("testMap");
 
+        loadingScreen = new LoadingScreen();
+        camera.setLoadingScreen(loadingScreen);
         camera.follow(player);
         List<string> convo = new List<string>();
         convo.Add("This is the first convo");
@@ -51,15 +56,30 @@ public class Main : MonoBehaviour
         currentMap.setClipNode(camera);
     }
 
+    private bool loadingNewMap = false;
+    private WarpPoint wpToLoad;
     // Update is called once per frame
     void Update()
     {
-        WarpPoint destWarpPoint = currentMap.isWarpPointColliding(player);
-        if (destWarpPoint!=null)
+        if (loadingScreen.transitionOn && loadingScreen.finishedTransition)
         {
-            loadMap(destWarpPoint.mapName);
-            player.SetPosition(destWarpPoint.warpTileX * 16 + 8, destWarpPoint.warpTileY * -16 + 8);
+            loadMap(wpToLoad.mapName);
+            player.SetPosition(wpToLoad.warpTileX * 16 + 8, -wpToLoad.warpTileY * 16 + 8);
+            loadingScreen.startTransitionOff();
         }
+        else if (!loadingScreen.active)
+        {
+            Main.controlsLocked = false;
+            WarpPoint destWarpPoint = currentMap.isWarpPointColliding(player);
+            if (destWarpPoint != null)
+            {
+                Main.controlsLocked = true;
+                wpToLoad = destWarpPoint;
+                loadingScreen.startTransitionOn();
+
+            }
+        }
+        
         
     }
 }

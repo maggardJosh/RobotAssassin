@@ -31,6 +31,8 @@ public class Player : BaseWalkingAnimSprite
     
     private void HandleControls()
     {
+        if (Main.controlsLocked)
+            return;
         if (UnityEngine.Input.GetKey(KeyCode.D))
             walkRight();
         if (UnityEngine.Input.GetKey(KeyCode.A))
