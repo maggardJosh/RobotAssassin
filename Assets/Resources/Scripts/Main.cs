@@ -121,7 +121,7 @@ public class Main : MonoBehaviour
         {
             float distSquared = (player.GetPosition() - wp.GetPosition()).sqrMagnitude;
             
-            if (distSquared <= 100)
+            if (distSquared <= 10)
             {
                 destWarpPoint = wp;
                 break;
