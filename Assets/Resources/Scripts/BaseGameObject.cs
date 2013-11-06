@@ -37,7 +37,7 @@ public abstract class BaseGameObject : FAnimatedSprite
    
     protected virtual void Update()
     {
-
+        pushAwayFromWalls();
        
         this.sortZ = -y;
         for(int x=0; x<3; x++)
@@ -52,6 +52,28 @@ public abstract class BaseGameObject : FAnimatedSprite
         }
       
         showCurrentLevel();
+    }
+    private float pushFromWallsSpeed = 15;
+    private void pushAwayFromWalls()
+    {
+        if (collisionTilemap == null)
+            return;
+        if (!isWalkable(collisionTilemap, x - width / 2, y))
+        {
+            x += pushFromWallsSpeed * UnityEngine.Time.deltaTime;
+        }
+        if (!isWalkable(collisionTilemap, x + width / 2, y))
+        {
+            x -= pushFromWallsSpeed * UnityEngine.Time.deltaTime;
+        }
+        if (!isWalkable(collisionTilemap, x, y))
+        {
+            y -= pushFromWallsSpeed * UnityEngine.Time.deltaTime;
+        }
+        if (!isWalkable(collisionTilemap, x , y-height/2))
+        {
+            y += pushFromWallsSpeed * UnityEngine.Time.deltaTime;
+        }
     }
 
     private void showCurrentLevel()
@@ -103,14 +125,14 @@ public abstract class BaseGameObject : FAnimatedSprite
 
     protected void moveLeft(float speed)
     {
-        if (BaseWalkingAnimSprite.isWalkable(collisionTilemap, (x - speed * UnityEngine.Time.deltaTime) - width / 2, y))
+        if (BaseWalkingAnimSprite.isWalkable(collisionTilemap, (x - speed * UnityEngine.Time.deltaTime) - width / 2, y-height/4))
             x -= speed * UnityEngine.Time.deltaTime;
         this.sortZ = -y;
     }
 
     protected void moveRight(float speed)
     {
-        if (BaseWalkingAnimSprite.isWalkable(collisionTilemap, (x + speed * UnityEngine.Time.deltaTime) + width / 2, y))
+        if (BaseWalkingAnimSprite.isWalkable(collisionTilemap, (x + speed * UnityEngine.Time.deltaTime) + width / 2, y-height/4))
             x += speed * UnityEngine.Time.deltaTime;
         this.sortZ = -y;
     }
