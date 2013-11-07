@@ -5,13 +5,21 @@ using System.Text;
 
 	public class Ym90_GUI :FCamObject
 	{
+        private static Ym90_GUI instance;
+
+        public static Ym90_GUI getInstance()
+        {
+            if (instance == null)
+                instance = new Ym90_GUI();
+            return instance;
+        }
         FContainer guiLayer = new FContainer();
         FContainer overlay = new FContainer();
         public void setLoadingScreen(LoadingScreen loadingScreen)
         {
             overlay.AddChild(loadingScreen);
         }
-        public Ym90_GUI() : base()
+        private Ym90_GUI() : base()
         {
             FSprite statusBar = new FSprite("statusBar_bg");
             statusBar.y = Futile.screen.halfHeight - statusBar.height/2;

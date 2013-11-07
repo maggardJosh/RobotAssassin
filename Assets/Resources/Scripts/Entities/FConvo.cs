@@ -12,6 +12,7 @@ public class FConvo : FContainer
     const float revealSpeed = 70;
     bool active = true;
     List<string> convos;
+    public bool isFinished = false;
 
     public FConvo(List<string> convos)
         : base()
@@ -35,6 +36,7 @@ public class FConvo : FContainer
     public override void HandleRemovedFromStage()
     {
         Futile.instance.SignalUpdate -= Update;
+        isFinished = true;
         base.HandleRemovedFromStage();
     }
 
@@ -47,7 +49,7 @@ public class FConvo : FContainer
     {
         if (active)
         {
-           
+            Main.controlsLocked = true;
             if (this.y < -Futile.screen.halfHeight + convoBackground.height / 2)
             {
                 this.y += revealSpeed * UnityEngine.Time.deltaTime;
@@ -89,6 +91,7 @@ public class FConvo : FContainer
                         else
                         {
                             hide();
+                            Main.controlsLocked = false;
                         }
                     }
                 }

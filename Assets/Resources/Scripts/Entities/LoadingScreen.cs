@@ -8,8 +8,10 @@ using System.Text;
         FSprite loadingImage;
         public bool transitionOn = false;
         public bool finishedTransition = false;
-        float revealSpeed = 300;
+        float revealSpeed = 400;
         public bool active = false;
+        const float MIN_LOAD_TIME = .4f;
+        float count = 0;
         public LoadingScreen() : base()
         {
             loadingImage = new FSprite("loading");
@@ -35,10 +37,12 @@ using System.Text;
 
         public void Update()
         {
+            count += UnityEngine.Time.deltaTime;
             if (!active)
                 return;
             if (transitionOn)
             {
+                Main.controlsLocked = true;
                 if (x > 0)
                 {
                     finishedTransition = false;
@@ -48,10 +52,13 @@ using System.Text;
                 else
                 {
                     finishedTransition = true;
+                    count = 0;
                 }
             }
             else
             {
+                if (count < MIN_LOAD_TIME)
+                    return;
                 if (x > -Futile.screen.width)
                 {
                     x -= revealSpeed * UnityEngine.Time.deltaTime;
@@ -59,6 +66,7 @@ using System.Text;
                 }
                 else
                 {
+                    Main.controlsLocked = false;
                     x = -Futile.screen.width;
                     finishedTransition = true;
                     active = false;

@@ -10,6 +10,7 @@ public class Main : MonoBehaviour
     Map currentMap = new Map();
     LoadingScreen loadingScreen;
     public static bool controlsLocked = false;
+    List<Event> eventQueue;
 
     // Use this for initialization
     void Start()
@@ -24,10 +25,11 @@ public class Main : MonoBehaviour
         Futile.atlasManager.LoadAtlas("Atlases/atlasOne");
         Futile.atlasManager.LoadFont("gameFont", "fontOne_0", "Atlases/fontOne", 0, 0);
 
+        eventQueue = new List<Event>();
 
-        GlitchManager.getInstance();       
+        GlitchManager.getInstance();
 
-        camera = new Ym90_GUI();
+        camera = Ym90_GUI.getInstance();
         player = new Player();
 
         currentMap = new Map();
@@ -37,15 +39,9 @@ public class Main : MonoBehaviour
         loadingScreen = new LoadingScreen();
         camera.setLoadingScreen(loadingScreen);
         camera.follow(player);
-        List<string> convo = new List<string>();
-        convo.Add("This is the first convo");
-        convo.Add("This is the second....");
-        convo.Add("Last..\n           -Jif");
-        FConvo convoOne = new FConvo(convo );
-        
-        camera.AddChild(convoOne);
-        
-        
+
+
+
         Futile.stage.AddChild(camera);
     }
 
@@ -61,6 +57,19 @@ public class Main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.I))
+            test();
+        if (eventQueue.Count > 0)
+        {
+            Main.controlsLocked = true;
+            eventQueue[0].Update();
+            if (eventQueue[0].finished)
+            {
+                eventQueue.RemoveAt(0);
+                Main.controlsLocked = false;
+            }
+            return;
+        }
         if (loadingScreen.transitionOn && loadingScreen.finishedTransition)
         {
             loadMap(wpToLoad.mapName);
@@ -69,7 +78,6 @@ public class Main : MonoBehaviour
         }
         else if (!loadingScreen.active)
         {
-            Main.controlsLocked = false;
             WarpPoint destWarpPoint = currentMap.isWarpPointColliding(player);
             if (destWarpPoint != null)
             {
@@ -79,7 +87,23 @@ public class Main : MonoBehaviour
 
             }
         }
-        
-        
+
+
+
+    }
+
+    private void test()
+    {
+        List<string> convo = new List<string>();
+        convo.Add("This is the first convo");
+        convo.Add("This is the second....");
+        FConvo convoOne = new FConvo(convo);
+
+        eventQueue.Add(new Event(new List<EventAction>() { 
+            new Action_MoveCamera(200,-300,4.0f), 
+            new Action_Wait(4.0f),
+            new Action_ShowConvo(convoOne),
+            new Action_FollowNode(player, 3.0f)           
+        }));
     }
 }
