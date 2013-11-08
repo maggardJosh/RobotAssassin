@@ -5,7 +5,7 @@ using System.Text;
 
 public abstract class BaseWalkingAnimSprite : BaseGameObject
 {
-    protected int animSpeed = 300;
+    protected int animSpeed = 210;
     protected float walkSpeed = 50.0f;
     public enum State
     {

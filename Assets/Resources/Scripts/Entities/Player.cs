@@ -42,14 +42,14 @@ public class Player : BaseWalkingAnimSprite
         if (this.CurrentState == State.ATTACKING)
             return;
 
-        if (UnityEngine.Input.GetKey(KeyCode.RightArrow))
-            walkRight();
-        if (UnityEngine.Input.GetKey(KeyCode.LeftArrow))
-            walkLeft();
         if (UnityEngine.Input.GetKey(KeyCode.UpArrow))
             walkUp();
         if (UnityEngine.Input.GetKey(KeyCode.DownArrow))
             walkDown();
+        if (UnityEngine.Input.GetKey(KeyCode.RightArrow))
+            walkRight();
+        if (UnityEngine.Input.GetKey(KeyCode.LeftArrow))
+            walkLeft();
     }
 
     private void attack()
