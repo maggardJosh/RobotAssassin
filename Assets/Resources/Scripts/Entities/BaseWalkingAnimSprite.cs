@@ -10,7 +10,8 @@ public abstract class BaseWalkingAnimSprite : BaseGameObject
     public enum State
     {
         IDLE,
-        WALKING
+        WALKING,
+        ATTACKING
     }
     public enum Direction
     {
@@ -19,7 +20,7 @@ public abstract class BaseWalkingAnimSprite : BaseGameObject
     protected Direction currentDirection = Direction.DOWN;
     private State _state = State.IDLE;
 
-    protected State CurrentState
+    public State CurrentState
     {
         get { return _state; }
         set
@@ -46,9 +47,18 @@ public abstract class BaseWalkingAnimSprite : BaseGameObject
 
     protected override void  Update()
     {
+        if (CurrentState == State.ATTACKING)
+        {
+            this.alpha = 0;
+            base.Update();
+            return;
+        }
+        else
+            this.alpha = 1;
         play(CurrentState + "_" + currentDirection);
         CurrentState = State.IDLE;
         base.Update();
+        
     }
 
     protected void walkUp()

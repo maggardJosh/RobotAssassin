@@ -6,18 +6,18 @@ using UnityEngine;
 
 public class Player : BaseWalkingAnimSprite
 {
-    private Sword sword;
-    private Vector2 swordDisp = Vector2.zero;
+    private Weapon primaryWeapon;
+    private Weapon secondaryWeapon;
     public Player()
         : base("player")
     {
         play("walk_down");
-        sword = new Sword();
+        primaryWeapon = new Sword(this);
     }
 
     public override void HandleAddedToContainer(FContainer container)
     {
-        container.AddChild(sword);
+        container.AddChild(primaryWeapon);
         base.HandleAddedToContainer(container);
     }
 
@@ -25,7 +25,10 @@ public class Player : BaseWalkingAnimSprite
     {
         HandleControls();
         base.Update();
-        sword.SetPosition(this.GetPosition() + swordDisp);
+        primaryWeapon.SetPosition(this.GetPosition());
+        primaryWeapon.Update();
+        if (secondaryWeapon != null)
+            secondaryWeapon.SetPosition(this.GetPosition());
     }
 
     
@@ -33,42 +36,24 @@ public class Player : BaseWalkingAnimSprite
     {
         if (Main.controlsLocked)
             return;
-        if (UnityEngine.Input.GetKey(KeyCode.D))
-            walkRight();
-        if (UnityEngine.Input.GetKey(KeyCode.A))
-            walkLeft();
-        if (UnityEngine.Input.GetKey(KeyCode.W))
-            walkUp();
-        if (UnityEngine.Input.GetKey(KeyCode.S))
-            walkDown();
 
-        if (UnityEngine.Input.GetKey(KeyCode.X))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.X))
             attack();
+        if (this.CurrentState == State.ATTACKING)
+            return;
+
+        if (UnityEngine.Input.GetKey(KeyCode.RightArrow))
+            walkRight();
+        if (UnityEngine.Input.GetKey(KeyCode.LeftArrow))
+            walkLeft();
+        if (UnityEngine.Input.GetKey(KeyCode.UpArrow))
+            walkUp();
+        if (UnityEngine.Input.GetKey(KeyCode.DownArrow))
+            walkDown();
     }
-    private int scalarDisp = 13;
+
     private void attack()
     {
-        
-        sword.play("attack_down", true);
-        switch(currentDirection)
-        {
-            case Direction.DOWN:
-                sword.rotation = 0;
-                swordDisp = Vector2.up * -scalarDisp;
-                break;
-            case Direction.LEFT:
-                sword.rotation = 90;
-                swordDisp = Vector2.right * -scalarDisp;
-                break;
-            case Direction.RIGHT:
-                sword.rotation = -90;
-                swordDisp = Vector2.right * scalarDisp;
-                break;
-            case Direction.UP:
-                sword.rotation = 180;
-                swordDisp = Vector2.up * scalarDisp;
-                break;
-                
-        }
+        primaryWeapon.Attack();
     }
 }

@@ -19,6 +19,7 @@ using System.Text;
         {
             overlay.AddChild(loadingScreen);
         }
+
         private Ym90_GUI() : base()
         {
             FSprite statusBar = new FSprite("statusBar_bg");

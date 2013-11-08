@@ -120,28 +120,28 @@ public abstract class BaseGameObject : FAnimatedSprite
         this.collisionTilemap = tilemap;
     }
 
-    protected void moveUp(float speed)
+    public void moveUp(float speed)
     {
         if (BaseWalkingAnimSprite.isWalkable(collisionTilemap, x, (y + speed * UnityEngine.Time.deltaTime)))
             y += speed * UnityEngine.Time.deltaTime;
         this.sortZ = -y;
     }
 
-    protected void moveDown(float speed)
+    public void moveDown(float speed)
     {
         if (BaseWalkingAnimSprite.isWalkable(collisionTilemap, x, (y - speed * UnityEngine.Time.deltaTime) - height / 2))
             y -= speed * UnityEngine.Time.deltaTime;
         this.sortZ = -y;
     }
 
-    protected void moveLeft(float speed)
+    public void moveLeft(float speed)
     {
         if (BaseWalkingAnimSprite.isWalkable(collisionTilemap, (x - speed * UnityEngine.Time.deltaTime) - width / 2, y - height / 4))
             x -= speed * UnityEngine.Time.deltaTime;
         this.sortZ = -y;
     }
 
-    protected void moveRight(float speed)
+    public void moveRight(float speed)
     {
         if (BaseWalkingAnimSprite.isWalkable(collisionTilemap, (x + speed * UnityEngine.Time.deltaTime) + width / 2, y - height / 4))
             x += speed * UnityEngine.Time.deltaTime;
