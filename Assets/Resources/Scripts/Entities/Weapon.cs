@@ -12,7 +12,7 @@ using System.Text;
             this.player = player;
         }
 
-        public abstract void Attack();
+        public abstract void Attack(BaseWalkingAnimSprite.Direction direction);
 
         protected override void Update()
         {

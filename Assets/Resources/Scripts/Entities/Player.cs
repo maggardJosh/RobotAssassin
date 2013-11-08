@@ -54,6 +54,6 @@ public class Player : BaseWalkingAnimSprite
 
     private void attack()
     {
-        primaryWeapon.Attack();
+        primaryWeapon.Attack(currentDirection);
     }
 }
