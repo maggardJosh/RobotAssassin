@@ -115,6 +115,11 @@ public class FAtlasManager
 			ActuallyLoadAtlasOrImage(atlasPath, atlasPath+Futile.resourceSuffix, atlasPath+Futile.resourceSuffix);
 		}
 	}
+
+    public bool elementExists(string elementName)
+    {
+        return _allElementsByName.ContainsKey(elementName);
+    }
 	
 	public void LoadImage(string imagePath)
 	{
@@ -183,7 +188,7 @@ public class FAtlasManager
 	{
 		ActuallyUnloadAtlasOrImage(imagePath);	
 	}
-
+    
 	public FAtlasElement GetElementWithName (string elementName)
 	{
 		if (_allElementsByName.ContainsKey(elementName))

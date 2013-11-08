@@ -10,14 +10,23 @@ public abstract class BaseGameObject : FAnimatedSprite
 
     private FAnimatedSprite[] otherAnims = new FAnimatedSprite[3];
     private string elementBase = "";
+    private int maxLevel = 1;
 
     public BaseGameObject(string elementBase)
-        : base(elementBase+"_1")
+        : base(elementBase + "_1")
     {
         this.elementBase = elementBase;
-        for (int x = 0; x < 3; x++)
+        for (int x = 1; x < 4; x++)
         {
-            otherAnims[x] = new FAnimatedSprite(elementBase + "_" + (x + 1));
+            if (Futile.atlasManager.elementExists(elementBase + "_" + (x + 1) + "/0"))
+            {
+                otherAnims[x - 1] = new FAnimatedSprite(elementBase + "_" + (x + 1));
+                maxLevel = x + 1;
+            }
+            else
+            {
+                otherAnims[x - 1] = new FAnimatedSprite(elementBase + "_1");
+            }
         }
     }
 
@@ -34,23 +43,25 @@ public abstract class BaseGameObject : FAnimatedSprite
         int[] wallFrames = new int[] { 1, -1 };
         return !wallFrames.Contains(tileFrame);
     }
-   
+
     protected virtual void Update()
     {
         pushAwayFromWalls();
-       
+
         this.sortZ = -y;
-        for(int x=0; x<3; x++)
+        for (int x = 0; x < 3; x++)
         {
+
             FAnimatedSprite sprite = otherAnims[x];
             sprite.SetPosition(this.GetPosition());
             sprite.sortZ = this.sortZ;
-            sprite.SetElementByName(this.elementBase + "_" + (x + 2) + "/"+this.currentFrame);
+            if (maxLevel >= x + 2)
+                sprite.SetElementByName(this.elementBase + "_" + (x + 2) + "/" + this.currentFrame);
             sprite.alpha = this.alpha;
             sprite.rotation = this.rotation;
 
         }
-      
+
         showCurrentLevel();
     }
     private float pushFromWallsSpeed = 25;
@@ -70,7 +81,7 @@ public abstract class BaseGameObject : FAnimatedSprite
         {
             y -= pushFromWallsSpeed * UnityEngine.Time.deltaTime;
         }
-        if (!isWalkable(collisionTilemap, x , y-height/2))
+        if (!isWalkable(collisionTilemap, x, y - height / 2))
         {
             y += pushFromWallsSpeed * UnityEngine.Time.deltaTime;
         }
@@ -78,7 +89,7 @@ public abstract class BaseGameObject : FAnimatedSprite
 
     private void showCurrentLevel()
     {
-        int currentLevel = GlitchManager.getInstance().CurrentLevel;
+        int currentLevel = Math.Min(maxLevel-1, GlitchManager.getInstance().CurrentLevel);
         this.isVisible = false;
         foreach (FAnimatedSprite sprite in otherAnims)
             sprite.isVisible = false;
@@ -125,14 +136,14 @@ public abstract class BaseGameObject : FAnimatedSprite
 
     protected void moveLeft(float speed)
     {
-        if (BaseWalkingAnimSprite.isWalkable(collisionTilemap, (x - speed * UnityEngine.Time.deltaTime) - width / 2, y-height/4))
+        if (BaseWalkingAnimSprite.isWalkable(collisionTilemap, (x - speed * UnityEngine.Time.deltaTime) - width / 2, y - height / 4))
             x -= speed * UnityEngine.Time.deltaTime;
         this.sortZ = -y;
     }
 
     protected void moveRight(float speed)
     {
-        if (BaseWalkingAnimSprite.isWalkable(collisionTilemap, (x + speed * UnityEngine.Time.deltaTime) + width / 2, y-height/4))
+        if (BaseWalkingAnimSprite.isWalkable(collisionTilemap, (x + speed * UnityEngine.Time.deltaTime) + width / 2, y - height / 4))
             x += speed * UnityEngine.Time.deltaTime;
         this.sortZ = -y;
     }

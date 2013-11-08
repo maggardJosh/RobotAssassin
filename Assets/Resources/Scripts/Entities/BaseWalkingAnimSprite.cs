@@ -33,13 +33,13 @@ public abstract class BaseWalkingAnimSprite : BaseGameObject
         : base(baseElement)
     {
         addAnimation(new FAnimation(State.IDLE + "_" + Direction.DOWN, new int[] { 1 }, animSpeed, true));
-        addAnimation(new FAnimation(State.IDLE + "_" + Direction.LEFT, new int[] { 5 }, animSpeed, true));
-        addAnimation(new FAnimation(State.IDLE + "_" + Direction.UP, new int[] { 9 }, animSpeed, true));
-        addAnimation(new FAnimation(State.IDLE + "_" + Direction.RIGHT, new int[] { 13 }, animSpeed, true));
-        addAnimation(new FAnimation(State.WALKING + "_" + Direction.DOWN, new int[] { 1, 2, 3, 4 }, animSpeed, true));
-        addAnimation(new FAnimation(State.WALKING + "_" + Direction.LEFT, new int[] { 5, 6, 7, 8 }, animSpeed, true));
-        addAnimation(new FAnimation(State.WALKING + "_" + Direction.UP, new int[] { 9, 10, 11, 12 }, animSpeed, true));
-        addAnimation(new FAnimation(State.WALKING + "_" + Direction.RIGHT, new int[] { 13, 14, 15, 16 }, animSpeed, true));
+        addAnimation(new FAnimation(State.IDLE + "_" + Direction.LEFT, new int[] { 2 }, animSpeed, true));
+        addAnimation(new FAnimation(State.IDLE + "_" + Direction.UP, new int[] { 3 }, animSpeed, true));
+        addAnimation(new FAnimation(State.IDLE + "_" + Direction.RIGHT, new int[] { 4 }, animSpeed, true));
+        addAnimation(new FAnimation(State.WALKING + "_" + Direction.DOWN, new int[] { 5,6,7,8}, animSpeed, true));
+        addAnimation(new FAnimation(State.WALKING + "_" + Direction.LEFT, new int[] { 9,10,11,12 }, animSpeed, true));
+        addAnimation(new FAnimation(State.WALKING + "_" + Direction.UP, new int[] { 13,14,15,16 }, animSpeed, true));
+        addAnimation(new FAnimation(State.WALKING + "_" + Direction.RIGHT, new int[] { 17,18,19,20 }, animSpeed, true));
         play(State.IDLE + "_" + Direction.DOWN);
     }
 

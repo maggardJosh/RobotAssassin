@@ -101,7 +101,6 @@ public class Main : MonoBehaviour
 
         eventQueue.Add(new Event(new List<EventAction>() { 
             new Action_MoveCamera(200,-300,4.0f), 
-            new Action_Wait(4.0f),
             new Action_ShowConvo(convoOne),
             new Action_FollowNode(player, 3.0f)           
         }));

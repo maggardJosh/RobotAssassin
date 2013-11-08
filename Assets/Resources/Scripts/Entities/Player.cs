@@ -9,7 +9,7 @@ public class Player : BaseWalkingAnimSprite
     private Sword sword;
     private Vector2 swordDisp = Vector2.zero;
     public Player()
-        : base("scientist")
+        : base("player")
     {
         play("walk_down");
         sword = new Sword();

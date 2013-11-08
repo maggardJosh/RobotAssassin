@@ -89,10 +89,14 @@ public class Map : FTmxMap
                     break;
             }
         }
-
-        Scientist s = new Scientist(100, -100);
-        playerLayer.AddChild(s);
-        s.setTilemap(tilemapCollision);
+        for (int x = 0; x < 100; x++)
+        {
+            Scientist s = new Scientist(tilemap.width*RXRandom.Float(), -tilemap.height*RXRandom.Float());
+            while (BaseGameObject.isWalkable(tilemap, s.x, s.y))
+                s.SetPosition(tilemap.width * RXRandom.Float(), -tilemap.height * RXRandom.Float());
+            playerLayer.AddChild(s);
+            s.setTilemap(tilemapCollision);
+        }
 
         backgroundLayer.AddChild(tilemap);
         backgroundLayer.AddChild(tilemapCollision);
