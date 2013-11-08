@@ -18,6 +18,7 @@ public class Sword : Weapon
             attackOne = true;
             this.play("attack_down", true);
             player.CurrentState = BaseWalkingAnimSprite.State.ATTACKING;
+            this.alpha = 1;
         }
         else if (attackTwo)
         {
