@@ -8,14 +8,14 @@ using System.Text;
         FSprite loadingImage;
         public bool transitionOn = false;
         public bool finishedTransition = false;
-        float revealSpeed = 400;
+        float revealSpeed = 600;
         public bool active = false;
-        const float MIN_LOAD_TIME = .4f;
+        const float MIN_LOAD_TIME = .3f;
         float count = 0;
         public LoadingScreen() : base()
         {
             loadingImage = new FSprite("loading");
-            this.x = Futile.screen.width;
+            this.x = Futile.screen.halfWidth + loadingImage.width/2;
             this.AddChild(loadingImage);
 
             Futile.instance.SignalUpdate += Update;
@@ -25,7 +25,7 @@ using System.Text;
             active = true;
             transitionOn = true;
             finishedTransition = false;
-            this.x = Futile.screen.width;
+            this.x = Futile.screen.halfWidth + loadingImage.width/2;
         }
 
         public void startTransitionOff()
@@ -59,7 +59,7 @@ using System.Text;
             {
                 if (count < MIN_LOAD_TIME)
                     return;
-                if (x > -Futile.screen.width)
+                if (x > -Futile.screen.halfWidth - loadingImage.width/2)
                 {
                     x -= revealSpeed * UnityEngine.Time.deltaTime;
                     finishedTransition = false;
@@ -67,7 +67,7 @@ using System.Text;
                 else
                 {
                     Main.controlsLocked = false;
-                    x = -Futile.screen.width;
+                    x = -Futile.screen.halfWidth - loadingImage.width / 2;
                     finishedTransition = true;
                     active = false;
                 }

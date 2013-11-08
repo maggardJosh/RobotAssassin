@@ -5,6 +5,8 @@ public class Sword : Weapon
 {
     bool attackOne = false;
     bool attackTwo = false;
+    private float count = 0;
+    private float maxLength = .8f;
     public Sword(Player p)
         : base("sword", p)
     {
@@ -19,6 +21,7 @@ public class Sword : Weapon
             this.play("attack_down", true);
             player.CurrentState = BaseWalkingAnimSprite.State.ATTACKING;
             this.alpha = 1;
+            this.count = 0;
         }
         else if (attackTwo)
         {
@@ -31,6 +34,7 @@ public class Sword : Weapon
         base.Update();
         if (player.CurrentState == BaseWalkingAnimSprite.State.ATTACKING)
         {
+            count += UnityEngine.Time.deltaTime;
             if (_stopped)
             {
                 attackOne = false;
@@ -39,7 +43,8 @@ public class Sword : Weapon
             }
             else
             {
-                player.moveDown(30);
+                player.moveDown(Mathf.Max(0,Mathf.Cos((((count)/maxLength)*2)*Mathf.PI))* 50);
+                
             }
         }
     }
