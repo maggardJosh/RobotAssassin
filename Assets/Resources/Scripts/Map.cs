@@ -34,12 +34,20 @@ public class Map : FTmxMap
         Futile.stage.AddChild(foregroundLayer);
     }
 
-    private void clearMap()
+    public void clearMap()
     {
         spawnPoints.Clear();
         warpPoints.Clear();
         if (tilemap != null)
+        {
             tilemap.RemoveFromContainer();
+            tilemap.RemoveAllChildren();
+        }
+        foreach (FTilemap f in otherTilemaps)
+        {
+            if (f != null)
+                f.RemoveFromContainer();
+        }
         if (tilemapCollision != null)
             tilemapCollision.RemoveFromContainer();
         if (objectGroup != null)
@@ -60,14 +68,14 @@ public class Map : FTmxMap
 
         for (int x = 0; x < 3; x++)
         {
-            otherTilemaps[x] = new FTilemap(tilemap.BaseElementName + "_" + (x+1), 1);
+            otherTilemaps[x] = new FTilemap(tilemap.BaseElementName + "_" + (x + 1), 1);
             otherTilemaps[x].LoadText(tilemap.dataString, false);
         }
 
         tilemapCollision = (FTilemap)(getLayerNamed("Meta"));
         objectGroup = (FContainer)(getLayerNamed("Objects"));
 
-        
+
 
         foreach (XMLNode xml in this.objects)
         {
@@ -102,7 +110,7 @@ public class Map : FTmxMap
         }
         for (int x = 0; x < 100; x++)
         {
-            Scientist s = new Scientist(tilemap.width*RXRandom.Float(), -tilemap.height*RXRandom.Float());
+            Scientist s = new Scientist(tilemap.width * RXRandom.Float(), -tilemap.height * RXRandom.Float());
             while (BaseGameObject.isWalkable(tilemap, s.x, s.y))
                 s.SetPosition(tilemap.width * RXRandom.Float(), -tilemap.height * RXRandom.Float());
             playerLayer.AddChild(s);

@@ -54,6 +54,14 @@ public class Player : BaseWalkingAnimSprite
 
     private void attack()
     {
+        if (UnityEngine.Input.GetKey(KeyCode.UpArrow))
+            currentDirection = Direction.UP;
+        else if (UnityEngine.Input.GetKey(KeyCode.DownArrow))
+            currentDirection = Direction.DOWN;
+        else if (UnityEngine.Input.GetKey(KeyCode.LeftArrow))
+            currentDirection = Direction.LEFT;
+        else if (UnityEngine.Input.GetKey(KeyCode.RightArrow))
+            currentDirection = Direction.RIGHT;
         primaryWeapon.Attack(currentDirection);
     }
 }

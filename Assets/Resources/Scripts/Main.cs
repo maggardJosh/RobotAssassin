@@ -50,9 +50,13 @@ public class Main : MonoBehaviour
 
     private void loadMap(string mapName)
     {
+        currentMap.clearMap();
+        currentMap = new Map();
+        currentMap.setPlayer(player);
         currentMap.loadMap(mapName);
         camera.setWorldBounds(new Rect(0, -currentMap.tilemap.height, currentMap.tilemap.width, currentMap.tilemap.height));
         currentMap.setClipNode(camera);
+        camera.MoveToFront();
     }
 
     private bool loadingNewMap = false;
@@ -99,12 +103,13 @@ public class Main : MonoBehaviour
     private void test()
     {
         List<string> convo = new List<string>();
-        convo.Add("This is the first convo");
-        convo.Add("This is the second....");
+        convo.Add("Hello!");
+        convo.Add(".... Goodbye");
         FConvo convoOne = new FConvo(convo);
 
         eventQueue.Add(new Event(new List<EventAction>() { 
             new Action_MoveCamera(200,-300,4.0f), 
+            new Action_ShowConvo(new FConvo(convo)),
             new Action_FollowNode(player, 3.0f),
             new Action_CustomAction(() => { GlitchManager.getInstance().glitchToNext(); })
         }));
