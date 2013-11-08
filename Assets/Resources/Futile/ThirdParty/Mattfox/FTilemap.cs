@@ -8,6 +8,7 @@ public class FTilemap : FContainer {
 	
 	protected string _baseName;
 	//protected string _baseExtension;
+    public string BaseElementName { get { return _baseName; } }
 	
 	protected bool _skipZero;
 	
@@ -146,9 +147,9 @@ public class FTilemap : FContainer {
 			}
 		}
 	}
-	
+    public string dataString = "";
 	public void LoadText (string text, bool skipZero=true) {
-		
+		this.dataString = text;
 		int zeroCount = 0;
 		
 		// remember for later
@@ -290,7 +291,7 @@ public class FTilemap : FContainer {
 				if (!_skipZero || frame > 0) {
 					FSprite sprite;
 					if (_skipZero) {
-						sprite = new FSprite(_baseName + "_"+frame);
+						sprite = new FSprite(_baseName + "/"+frame);
 						sprite.shader = _shader;
 						AddChild(sprite);
 					} else {

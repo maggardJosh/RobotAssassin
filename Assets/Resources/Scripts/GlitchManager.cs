@@ -7,11 +7,15 @@ using System.Text;
 	{
         private float count = 0;
         private float nextCount = .5f;
-        private float maxCount = 1.5f;
-        private int maxLevel = 3;
+        private float maxCount = .2f;
+        private float minCount = .001f;
+        private int minLevel = 0;
+        private int maxLevel = 0;
         private int currentLevel = 0;
+        private float glitchToNextLength = 3.0f;
 
-        private Boolean isGlitching = false;
+
+        private Boolean isGlitchingToNextLevel = false;
 
         public int CurrentLevel { get { return currentLevel; } }
 
@@ -28,14 +32,32 @@ using System.Text;
             Futile.instance.SignalUpdate += Update;
         }
 
+        public void glitchToNext()
+        {
+            this.isGlitchingToNextLevel = true;
+            minLevel = currentLevel;
+            maxLevel = currentLevel + 1;
+            minLevel = Math.Min(3, minLevel);
+            maxLevel = Math.Min(3, maxLevel);
+        }
+
         private void Update()
         {
-            if (isGlitching)
+            if (isGlitchingToNextLevel)
             {
                 count += UnityEngine.Time.deltaTime;
-                if (count > .05f)
+                if (Math.Abs(Math.Cos(count * (glitchToNextLength - count) * Math.PI * 10)) > .5f)
                 {
-                    currentLevel = RXRandom.Int(maxLevel + 1);
+                    currentLevel = maxLevel;
+                }
+                else
+                {
+                    currentLevel = minLevel;
+                }
+                if (count > glitchToNextLength)
+                {
+                    isGlitchingToNextLevel = false;
+                    currentLevel = maxLevel;
                     count = 0;
                 }
             }

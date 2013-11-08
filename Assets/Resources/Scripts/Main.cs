@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using System;
+
 
 
 public class Main : MonoBehaviour
@@ -27,7 +29,8 @@ public class Main : MonoBehaviour
 
         eventQueue = new List<Event>();
 
-        GlitchManager.getInstance();
+        GlitchManager gManager = GlitchManager.getInstance();
+        
 
         camera = Ym90_GUI.getInstance();
         player = new Player();
@@ -57,6 +60,7 @@ public class Main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentMap.Update();
         if (Input.GetKeyDown(KeyCode.I))
             test();
         if (eventQueue.Count > 0)
@@ -101,8 +105,8 @@ public class Main : MonoBehaviour
 
         eventQueue.Add(new Event(new List<EventAction>() { 
             new Action_MoveCamera(200,-300,4.0f), 
-            new Action_ShowConvo(convoOne),
-            new Action_FollowNode(player, 3.0f)           
+            new Action_FollowNode(player, 3.0f),
+            new Action_CustomAction(() => { GlitchManager.getInstance().glitchToNext(); })
         }));
     }
 }

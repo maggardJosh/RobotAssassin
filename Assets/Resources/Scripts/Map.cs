@@ -14,6 +14,8 @@ public class Map : FTmxMap
     public FTilemap tilemapCollision;
     public FContainer objectGroup;
 
+    private FTilemap[] otherTilemaps = new FTilemap[3];
+
     FContainer backgroundLayer;
     FContainer playerLayer;
     FContainer foregroundLayer;
@@ -55,8 +57,17 @@ public class Map : FTmxMap
         this.LoadTMX("Maps/" + mapName);
 
         tilemap = (FTilemap)(getLayerNamed("Tilemap"));
+
+        for (int x = 0; x < 3; x++)
+        {
+            otherTilemaps[x] = new FTilemap(tilemap.BaseElementName + "_" + (x+1), 1);
+            otherTilemaps[x].LoadText(tilemap.dataString, false);
+        }
+
         tilemapCollision = (FTilemap)(getLayerNamed("Meta"));
         objectGroup = (FContainer)(getLayerNamed("Objects"));
+
+        
 
         foreach (XMLNode xml in this.objects)
         {
@@ -99,6 +110,8 @@ public class Map : FTmxMap
         }
 
         backgroundLayer.AddChild(tilemap);
+        foreach (FTilemap f in otherTilemaps)
+            backgroundLayer.AddChild(f);
         backgroundLayer.AddChild(tilemapCollision);
         backgroundLayer.AddChild(objectGroup);
 
@@ -108,7 +121,19 @@ public class Map : FTmxMap
 
     internal void Update()
     {
-        throw new NotImplementedException();
+        showCorrectGlitchLevel();
+    }
+
+    private void showCorrectGlitchLevel()
+    {
+        int currentLevel = GlitchManager.getInstance().CurrentLevel;
+        this.isVisible = false;
+        foreach (FTilemap f in otherTilemaps)
+            f.isVisible = false;
+        if (currentLevel == 0)
+            this.isVisible = true;
+        else
+            otherTilemaps[currentLevel - 1].isVisible = true;
     }
 
     internal WarpPoint isWarpPointColliding(Player player)
