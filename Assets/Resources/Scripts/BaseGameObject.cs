@@ -12,6 +12,8 @@ public abstract class BaseGameObject : FAnimatedSprite
     private string elementBase = "";
     private int maxLevel = 1;
 
+    protected Map currentMap;
+
     public BaseGameObject(string elementBase)
         : base(elementBase + "_1")
     {
@@ -115,9 +117,10 @@ public abstract class BaseGameObject : FAnimatedSprite
         base.HandleRemovedFromStage();
     }
 
-    public void setTilemap(FTilemap tilemap)
+    public void setMap(Map map)
     {
-        this.collisionTilemap = tilemap;
+        this.currentMap = map;
+        this.collisionTilemap = map.tilemapCollision;
     }
 
     public void moveUp(float speed)

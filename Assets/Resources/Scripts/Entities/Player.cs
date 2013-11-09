@@ -8,6 +8,7 @@ public class Player : BaseWalkingAnimSprite
 {
     private Weapon primaryWeapon;
     private Weapon secondaryWeapon;
+
     public Player()
         : base("player")
     {
@@ -27,6 +28,8 @@ public class Player : BaseWalkingAnimSprite
         base.Update();
         primaryWeapon.SetPosition(this.GetPosition());
         primaryWeapon.Update();
+        if (primaryWeapon.ShouldTestAttack())
+            primaryWeapon.testAttack(currentMap);
         if (secondaryWeapon != null)
             secondaryWeapon.SetPosition(this.GetPosition());
     }

@@ -51,8 +51,6 @@ public class Main : MonoBehaviour
     private void loadMap(string mapName)
     {
         currentMap.clearMap();
-        currentMap = new Map();
-        currentMap.setPlayer(player);
         currentMap.loadMap(mapName);
         camera.setWorldBounds(new Rect(0, -currentMap.tilemap.height, currentMap.tilemap.width, currentMap.tilemap.height));
         currentMap.setClipNode(camera);
@@ -92,12 +90,8 @@ public class Main : MonoBehaviour
                 Main.controlsLocked = true;
                 wpToLoad = destWarpPoint;
                 loadingScreen.startTransitionOn();
-
             }
         }
-
-
-
     }
 
     private void test()

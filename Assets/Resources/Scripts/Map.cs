@@ -9,6 +9,7 @@ public class Map : FTmxMap
     public List<FNode> spawnPoints = new List<FNode>();
     List<WarpPoint> warpPoints = new List<WarpPoint>();
     private Player player;
+    public List<BaseGameObject> enemyList = new List<BaseGameObject>();
 
     public FTilemap tilemap;
     public FTilemap tilemapCollision;
@@ -36,6 +37,7 @@ public class Map : FTmxMap
 
     public void clearMap()
     {
+        enemyList.Clear();
         spawnPoints.Clear();
         warpPoints.Clear();
         if (tilemap != null)
@@ -113,8 +115,7 @@ public class Map : FTmxMap
             Scientist s = new Scientist(tilemap.width * RXRandom.Float(), -tilemap.height * RXRandom.Float());
             while (BaseGameObject.isWalkable(tilemap, s.x, s.y))
                 s.SetPosition(tilemap.width * RXRandom.Float(), -tilemap.height * RXRandom.Float());
-            playerLayer.AddChild(s);
-            s.setTilemap(tilemapCollision);
+            addEnemy(s);
         }
 
         backgroundLayer.AddChild(tilemap);
@@ -123,8 +124,15 @@ public class Map : FTmxMap
         backgroundLayer.AddChild(tilemapCollision);
         backgroundLayer.AddChild(objectGroup);
 
-        player.setTilemap(tilemapCollision);
+        player.setMap(this);
         playerLayer.AddChild(player);
+    }
+
+    public void addEnemy(BaseGameObject enemy)
+    {
+        playerLayer.AddChild(enemy);
+        enemy.setMap(this);
+        enemyList.Add(enemy);
     }
 
     internal void Update()
