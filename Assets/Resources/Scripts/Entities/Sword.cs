@@ -27,6 +27,12 @@ public class Sword : Weapon
         addAnimation(new FAnimation("attackTwo_right", integerArray(66, 76), 100, false));
 
     }
+    FSprite hitboxDebug = new FSprite(Futile.whiteElement);
+    public override void HandleAddedToContainer(FContainer container)
+    {
+       // container.AddChild(hitboxDebug);
+        base.HandleAddedToContainer(container);
+    }
 
     BaseWalkingAnimSprite.Direction currentDirection = BaseWalkingAnimSprite.Direction.DOWN;
 
@@ -63,7 +69,10 @@ public class Sword : Weapon
         {
             if (hitBox.Contains(enemy.GetPosition()))
             {
-                enemy.SetPosition(Vector2.one * 10);
+                Vector2 hitVect = new Vector2();
+                hitVect = enemy.GetPosition() - this.GetPosition();
+                hitVect = hitVect.normalized * 100;
+                ((BaseWalkingAnimSprite) enemy).takeHit(1, hitVect);
             }
         }
         hasCheckedHitBox = true;
@@ -75,13 +84,25 @@ public class Sword : Weapon
         switch (dir)
         {
             case BaseWalkingAnimSprite.Direction.UP:
-                return (currentFrame >= 42 && lastFrame <= 41);
+                if (attackOne)
+                    return (currentFrame >= 42 && lastFrame <= 41);
+                else
+                    return (currentFrame >= 52 && lastFrame <= 51);
             case BaseWalkingAnimSprite.Direction.DOWN:
-                return (currentFrame >= 4 && lastFrame <= 5);
+                if (attackOne)
+                    return (currentFrame >= 4 && lastFrame <= 5);
+                else
+                    return (currentFrame >= 15 && lastFrame <= 14);
             case BaseWalkingAnimSprite.Direction.LEFT:
-                return (currentFrame >= 23 && lastFrame <= 24);
+                if (attackOne)
+                    return (currentFrame >= 23 && lastFrame <= 24);
+                else
+                    return (currentFrame >= 34 && lastFrame <= 33);
             case BaseWalkingAnimSprite.Direction.RIGHT:
-                return (currentFrame >= 62 && lastFrame <= 63);
+                if (attackOne)
+                    return (currentFrame >= 62 && lastFrame <= 63);
+                else
+                    return (currentFrame >= 72 && lastFrame <= 71);
         }
         return false;
     }
@@ -92,52 +113,8 @@ public class Sword : Weapon
         if (player.CurrentState == BaseWalkingAnimSprite.State.ATTACKING)
         {
             count += UnityEngine.Time.deltaTime;
-            if (attackOne)
-            {
-                //RXDebug.Log(currentFrame + " " + lastFrame);
-                if (!hasCheckedHitBox && isInAttackFrame(currentDirection))
-                {
-                    switch (currentDirection)
-                    {
-                        case BaseWalkingAnimSprite.Direction.UP:
-                        case BaseWalkingAnimSprite.Direction.DOWN:
-                            hitBox.Set(0, 0, 25, 20);
-                            break;
-                        case BaseWalkingAnimSprite.Direction.LEFT:
-                        case BaseWalkingAnimSprite.Direction.RIGHT:
-                            hitBox.Set(0, 0, 20, 25);
-                            break;
-                    }
-                    isHitBoxActive = true;
-                    switch (currentDirection)
-                    {
-                        case BaseWalkingAnimSprite.Direction.UP:
-                            hitBox.x = this.x - 12.5f;
-                            hitBox.y = this.y;
-                            break;
-                        case BaseWalkingAnimSprite.Direction.DOWN:
-                            hitBox.x = this.x - 12.5f;
-                            hitBox.y = this.y - 20;
-                            break;
-                        case BaseWalkingAnimSprite.Direction.LEFT:
-                            hitBox.x = this.x - 20;
-                            hitBox.y = this.y - 12.5f;
-                            break;
-                        case BaseWalkingAnimSprite.Direction.RIGHT:
-                            hitBox.x = this.x;
-                            hitBox.y = this.y - 12.5f;
-                            break;
-                        default:
-                            hitBox.x = 0;
-                            hitBox.y = 0;
-                            break;
-                    }
-                }
-                else
-                {
-                    isHitBoxActive = false;
-                }
-            }
+
+            checkHitbox();
             if (_stopped)
             {
                 attackOne = false;
@@ -172,6 +149,119 @@ public class Sword : Weapon
         }
 
         lastFrame = currentFrame;
+    }
+
+    private void checkHitbox()
+    {
+        checkAttackOneHitbox();
+        checkAttackTwoHitbox();
+        
+    }
+
+    private void checkAttackTwoHitbox()
+    {
+        if (attackTwo)
+        {
+            if (!hasCheckedHitBox && isInAttackFrame(currentDirection))
+            {
+                switch (currentDirection)
+                {
+                    case BaseWalkingAnimSprite.Direction.UP:
+                    case BaseWalkingAnimSprite.Direction.DOWN:
+                        hitBox.Set(0, 0, 30, 30);
+                        break;
+                    case BaseWalkingAnimSprite.Direction.LEFT:
+                    case BaseWalkingAnimSprite.Direction.RIGHT:
+                        hitBox.Set(0, 0, 30, 30);
+                        break;
+                }
+                isHitBoxActive = true;
+                switch (currentDirection)
+                {
+                    case BaseWalkingAnimSprite.Direction.UP:
+                        hitBox.x = this.x - 15;
+                        hitBox.y = this.y - 5;
+                        break;
+                    case BaseWalkingAnimSprite.Direction.DOWN:
+                        hitBox.x = this.x - 15;
+                        hitBox.y = this.y - 25;
+                        break;
+                    case BaseWalkingAnimSprite.Direction.LEFT:
+                        hitBox.x = this.x - 20;
+                        hitBox.y = this.y - 12.5f;
+                        break;
+                    case BaseWalkingAnimSprite.Direction.RIGHT:
+                        hitBox.x = this.x - 5;
+                        hitBox.y = this.y - 12.5f;
+                        break;
+                    default:
+                        hitBox.x = 0;
+                        hitBox.y = 0;
+                        break;
+                }
+                updateHitBoxDebug();
+            }
+            else
+            {
+                isHitBoxActive = false;
+            }
+        }
+    }
+    private void updateHitBoxDebug()
+    {
+        hitboxDebug.width = hitBox.width;
+        hitboxDebug.height = hitBox.height;
+        hitboxDebug.SetPosition(hitBox.xMin + hitBox.width / 2, hitBox.yMax - hitBox.height / 2);
+    }
+    private void checkAttackOneHitbox()
+    {
+        if (attackOne)
+        {
+            if (!hasCheckedHitBox && isInAttackFrame(currentDirection))
+            {
+                switch (currentDirection)
+                {
+                    case BaseWalkingAnimSprite.Direction.UP:
+                    case BaseWalkingAnimSprite.Direction.DOWN:
+                        hitBox.Set(0, 0, 25, 20);
+                        break;
+                    case BaseWalkingAnimSprite.Direction.LEFT:
+                    case BaseWalkingAnimSprite.Direction.RIGHT:
+                        hitBox.Set(0, 0, 20, 25);
+                        break;
+                }
+                isHitBoxActive = true;
+                switch (currentDirection)
+                {
+                    case BaseWalkingAnimSprite.Direction.UP:
+                        hitBox.x = this.x - 12.5f;
+                        hitBox.y = this.y;
+                        break;
+                    case BaseWalkingAnimSprite.Direction.DOWN:
+                        hitBox.x = this.x - 12.5f;
+                        hitBox.y = this.y - 20;
+                        break;
+                    case BaseWalkingAnimSprite.Direction.LEFT:
+                        hitBox.x = this.x - 20;
+                        hitBox.y = this.y - 12.5f;
+                        break;
+                    case BaseWalkingAnimSprite.Direction.RIGHT:
+                        hitBox.x = this.x;
+                        hitBox.y = this.y - 12.5f;
+                        break;
+                    default:
+                        hitBox.x = 0;
+                        hitBox.y = 0;
+                        break;
+                }
+
+                updateHitBoxDebug();
+            }
+            else
+            {
+                isHitBoxActive = false;
+            }
+        }
     }
 }
 

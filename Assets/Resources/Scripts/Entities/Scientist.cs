@@ -26,6 +26,11 @@ public class Scientist : BaseWalkingAnimSprite
 
     protected override void Update()
     {
+        if (CurrentState == State.HIT)
+        {
+            base.Update();
+            return;
+        }
         lastDecision += Time.deltaTime;
         if (lastDecision >= MIN_DECISION)
         {
