@@ -63,7 +63,6 @@ public class Sword : Weapon
         {
             if (hitBox.Contains(enemy.GetPosition()))
             {
-                RXDebug.Log("HI");
                 enemy.SetPosition(Vector2.one * 10);
             }
         }

@@ -11,6 +11,7 @@ public abstract class BaseGameObject : FAnimatedSprite
     private FAnimatedSprite[] otherAnims = new FAnimatedSprite[3];
     private string elementBase = "";
     private int maxLevel = 1;
+    protected int health = 1;
 
     protected Map currentMap;
 

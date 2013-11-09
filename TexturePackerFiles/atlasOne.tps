@@ -153,6 +153,8 @@
             <filename>Fonts</filename>
             <filename>Dialog Assets</filename>
             <filename>Status Bar</filename>
+            <filename>loading.png</filename>
+            <filename>movementArrows.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
